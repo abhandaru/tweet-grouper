@@ -1,9 +1,18 @@
 import io
+import json
 
 class Database:
 
-  DATA_DIR = 'data/tweets-9'
-  DATA_FILE = 'tweets-9.json'
+  DATA_PATH = 'data/tweets-9/tweets-9.json'
 
   def __init__(self):
-    print 'init database'
+    path = Database.DATA_PATH
+    with open(path) as data:
+      self.tweets = json.load(data)
+
+  def get_by_author(self, author):
+    results = [ ]
+    for tweet in self.tweets:
+      if tweet['author'] == author:
+        results.append(tweet)
+    return results
