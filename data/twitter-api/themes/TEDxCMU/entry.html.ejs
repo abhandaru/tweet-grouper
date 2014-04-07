@@ -1,0 +1,7 @@
+<img src="<%= user.profile_image_url.replace('normal','bigger') %>" width="73" height="73" />
+<p class="text"><%= text.replace(/(@\w*|#\w*)/g, "<span style=\"color:#FF2b06\">$1</span>").replace(/(http:\/\/)|t.co\/\w*/g, '') %>
+<span class="who"> &mdash; <%= user.name %> (@<%=user.screen_name %>)</span>
+
+ <%= oembed.code %>
+
+</p>

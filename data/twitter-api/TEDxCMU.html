@@ -1,0 +1,24 @@
+<html>
+    <head>
+        <title>Twitter Convowall</title>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+        <script type="text/javascript" src="js/lib/ejs.js"></script>
+        <script type="text/javascript" src="js/lib/codebird.js"></script>
+        <script type="text/javascript" src="js/convowall.js"></script>
+        <script type="text/javascript">
+            $(function() {
+                $('body').convowall({
+                    theme: 'TEDxCMU',
+                    interval: 6000,
+                    limit: 50,
+                    search: {
+                        q: '@TEDxCMU OR #TEDxCMU',
+                        lang: 'en'
+                    }
+                });
+
+            });
+        </script>
+    </head>
+    <body></body>
+</html>
