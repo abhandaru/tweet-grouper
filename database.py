@@ -16,7 +16,7 @@ class Database:
         t = tweet.Tweet(tweet_data)
         self.tweets.append(t)
 
-  def get_by_author(self, author, limit = 20):
+  def get_by_author(self, author, limit = None):
     results = [ ]
     for tweet in self.tweets:
       if tweet.author == author:

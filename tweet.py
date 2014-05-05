@@ -2,9 +2,11 @@ class Tweet:
 
   # Exclude common words in the English language.
   WORD_FILTER = [
-    'the', 'be', 'to', 'of', 'and', 'a', 'in', 'that', 'have', 'I', 'it',
-    'for', 'not', 'on', 'with', 'he', 'as', 'you', 'do', 'at', 'RT', 'w/',
-    '&'
+    'the', 'be', 'to', 'of', 'and', 'a', 'in', 'that', 'have', 'i', 'it',
+    'for', 'not', 'on', 'with', 'he', 'as', 'you', 'do', 'at', 'rt', 'w/',
+    '&', 'is', 'we', 'an', 'this', 'but', 'his', 'by', 'from', 'they', 'say',
+    'her', 'she', 'or', 'will', 'my', 'all', 'would', 'there', 'their', 'what',
+    'so', 'if', 'who', 'get', 'which', 'me', 'are', 'our', 'your', 'here'
   ]
 
   def __init__(self, data):
@@ -16,7 +18,7 @@ class Tweet:
     # parse out the text
     tokens = self.text.split(' ')
     for token in tokens:
-      token = token.strip('.:')
+      token = token.strip('.:()').lower()
       # make sure we have a non-empty string
       if not token:
         continue
