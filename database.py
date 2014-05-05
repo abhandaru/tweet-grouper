@@ -8,7 +8,7 @@ class Database:
 
   def __init__(self):
     self.tweets = [ ]
-
+    # Read in the file.
     path = Database.DATA_PATH
     with open(path) as data:
       tweets_data = json.load(data)
@@ -16,9 +16,9 @@ class Database:
         t = tweet.Tweet(tweet_data)
         self.tweets.append(t)
 
-  def get_by_author(self, author):
+  def get_by_author(self, author, limit = 20):
     results = [ ]
     for tweet in self.tweets:
       if tweet.author == author:
         results.append(tweet)
-    return results
+    return results[:limit]
