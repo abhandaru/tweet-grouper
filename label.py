@@ -6,6 +6,7 @@ class Label:
     self.title = title
     self.includes = [ ]
     self.excludes = [ ]
+    self.exceptions = [ ]
     self.pos_ranks = [ ]
     self.neg_ranks = [ ]
 
@@ -45,7 +46,7 @@ class Label:
     # include authors
     members = self.includes[:]
     for author in candidates:
-      if scores[author] > avg:
+      if author not in self.exceptions and scores[author] > avg:
         members.append(author)
     return members
 

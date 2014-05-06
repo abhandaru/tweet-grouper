@@ -35,7 +35,9 @@ class Tweet:
       if token.startswith('@'):
         self.recipients.append(token[1:])
       elif token.startswith('#'):
-        self.hashtags.append(token[1:])
+        tag = token[1:]
+        self.hashtags.append(tag)
+        self.words.append(tag)
       else:
         self.words.append(token)
 

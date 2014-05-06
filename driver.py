@@ -9,14 +9,14 @@ following = db.get_authors()
 
 # set up a label
 label = Label('schools')
-label.add_author('Stanford')
+label.add_author('Yale')
 label.add_author('CarnegieMellon')
 # label.add_author('Harvard')
 # label.add_author('facebook')
 # label.add_author('Yale')
 # label.add_author('UWaterloo')
 # label.add_author('espn')
-label.remove_author('facebook')
+# label.remove_author('facebook')
 label.train(db)
 
 # print out some information about the label
