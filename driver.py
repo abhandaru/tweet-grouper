@@ -1,30 +1,29 @@
 import database
 from label import Label
 
-print "hello world!"
+print 'Running driver ...'
 db = database.Database()
 
 # authors
-authors = [
+following = [
   'elonmusk', 'espn', 'Harvard', 'nyjets', 'SportsCenter', 'NBA',
   'Stanford', 'UWaterloo', 'Yale'
 ]
 
 # set up a label
 label = Label('sports')
-label.add_author('nyjets')
-label.remove_author('UWaterloo')
+label.add_author('Stanford')
+# label.add_author('espn')
+# label.remove_author('elonmusk')
 label.train(db)
-print label
 
-# compute scores for each author
-scores = [ ]
-for author in authors:
-  scores.append((author, label.get_similarity(db, author)))
-scores.sort(key=lambda el: el[1], reverse=True)
+# print out some information about the label
+print 'Label: ', label
+for el in label.pos_ranks[:20]:
+  print '  ', el[1], el[0]
 
-# print out scores in order
-for score in scores:
-  print score[0], '\t', score[1]
-
-
+# see which authors are chosen for membership
+members = label.members(db, following)
+print 'Members:'
+for m in members:
+  print '  ', m

@@ -6,7 +6,8 @@ class Tweet:
     'for', 'not', 'on', 'with', 'he', 'as', 'you', 'do', 'at', 'rt', 'w/',
     '&', 'is', 'we', 'an', 'this', 'but', 'his', 'by', 'from', 'they', 'say',
     'her', 'she', 'or', 'will', 'my', 'all', 'would', 'there', 'their', 'what',
-    'so', 'if', 'who', 'get', 'which', 'me', 'are', 'our', 'your', 'here'
+    'so', 'if', 'who', 'get', 'which', 'me', 'are', 'our', 'your', 'here',
+    'has', 'how'
   ]
 
   def __init__(self, data):
@@ -15,19 +16,27 @@ class Tweet:
     self.recipients = [ ]
     self.hashtags = [ ]
     self.words = [ ]
+
     # parse out the text
     tokens = self.text.split(' ')
     for token in tokens:
-      token = token.strip('.:()').lower()
+      # trim off extraneous characters
+      token = token.strip('.:()<>-').lower()
       # make sure we have a non-empty string
       if not token:
         continue
-      # trim out special characters
+      # is the word in our exclusion set?
+      if token in Tweet.WORD_FILTER:
+        continue
+      # is the token just a number?
+      if token.isnumeric():
+        continue
+      # identify special tokens
       if token.startswith('@'):
         self.recipients.append(token[1:])
       elif token.startswith('#'):
         self.hashtags.append(token[1:])
-      elif not token.isnumeric() and token not in Tweet.WORD_FILTER:
+      else:
         self.words.append(token)
 
   def __str__(self):

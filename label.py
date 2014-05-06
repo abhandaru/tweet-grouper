@@ -11,6 +11,8 @@ class Label:
     return self.title + str(self.includes)
 
   def add_author(self, author):
+    if self.excludes.count(author) > 0:
+      self.excludes.remove(author)
     self.includes.append(author)
 
   def remove_author(self, author):
@@ -18,22 +20,36 @@ class Label:
       self.includes.remove(author)
     self.excludes.append(author)
 
-  def contains(self, author):
-    # trivial cases for membership
-    if author in self.includes:
-      return True
-    if author in self.excludes:
-      return False
-    # common case: compute similarity score
-    # TODO: Figure out cut-off
-    score = self.get_similarity(db, author)
-    return False
+  def members(self, db, authors):
+    print 'Similarity scores ...'
+    scores = { }
+    for author in authors:
+      score = self.get_similarity(db, author)
+      scores[author] = score
+      print '  ', author.ljust(15), score
+
+    # compile a list of candidates
+    candidates = [ ]
+    total = 0
+    for author in authors:
+      if not author in self.includes and not author in self.excludes:
+        total += scores[author]
+        candidates.append(author)
+
+    # compute the average score
+    avg = total / len(authors)
+    print 'Average score:', avg
+
+    # include authors
+    members = self.includes[:]
+    for author in candidates:
+      if scores[author] > avg:
+        members.append(author)
+    return members
 
   def train(self, db):
     self.pos_ranks = self.get_ranks(db, self.includes)
     self.neg_ranks = self.get_ranks(db, self.excludes)
-    for tup in self.pos_ranks[:20]:
-      print tup[1], tup[0]
     return True
 
   #
@@ -73,7 +89,7 @@ class Label:
   def get_counts(self, db, authors):
     counts = { }
     for author in authors:
-      tweets = db.get_by_author(author, 200)
+      tweets = db.get_by_author(author)
       for tweet in tweets:
         for word in tweet.words:
           if not counts.get(word):
