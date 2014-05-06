@@ -1,5 +1,7 @@
 class Label:
 
+  RANK_CUTOFF = 100
+
   def __init__(self, title):
     self.title = title
     self.includes = [ ]
@@ -33,11 +35,11 @@ class Label:
     total = 0
     for author in authors:
       if not author in self.includes and not author in self.excludes:
-        total += scores[author]
         candidates.append(author)
+        total += scores[author]
 
     # compute the average score
-    avg = total / len(authors)
+    avg = total / len(candidates)
     print 'Average score:', avg
 
     # include authors
@@ -64,13 +66,15 @@ class Label:
       pos_index = self.index(self.pos_ranks, test)
       neg_index = self.index(self.neg_ranks, test)
       if pos_index >= 0:
-        total += self.score_function(i, pos_index, self.pos_ranks[pos_index][1])
+        total += self.score_function(i, pos_index, test, self.pos_ranks[pos_index])
       if neg_index >= 0:
-        total -= self.score_function(i, neg_index, self.neg_ranks[neg_index][1])
+        total -= self.score_function(i, neg_index, test, self.neg_ranks[neg_index])
     return total
 
-  def score_function(self, index1, index2, weight):
-    return 1.0 * weight / ((1 + index1) * (1 + index2))
+  def score_function(self, index1, index2, rank1, rank2):
+    w1 = rank1[1]
+    w2 = rank2[1]
+    return 1.0 * (w1 + w2) / ((1 + index1) * (1 + index2))
 
   def index(self, ranks, test):
     for i in xrange(len(ranks)):
@@ -83,8 +87,7 @@ class Label:
     counts = self.get_counts(db, authors)
     items = counts.items()
     items.sort(key=lambda el: el[1], reverse=True)
-    return items
-
+    return items[:Label.RANK_CUTOFF]
 
   def get_counts(self, db, authors):
     counts = { }

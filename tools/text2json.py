@@ -11,8 +11,8 @@ EXT_TWEETS_TEXT = 'txt'
 TOKEN_HANDLE = 'Handle'
 TOKEN_TEXT = 'Text'
 
-OUTPUT_DIR = '../data/tweets-9'
-OUTPUT_FILE = 'tweets-9.json'
+OUTPUT_DIR = '../data/tweets-12'
+OUTPUT_FILE = 'tweets-12.json'
 
 # find all data files
 match = '/'.join([DIR_TWEETS_TEXT, '*.' + EXT_TWEETS_TEXT])
